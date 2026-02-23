@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Media | ShikshaSetu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="main-header">
+<h2 class="admin-logo">
+  Shiksha<span>Setu</span>
+</h2>    <nav>
+        <a href="/home">Home</a>
+        <a href="/about">About Us</a>
+        <a href="/work">Our Work</a>
+        <a href="/media" class="active">Media</a>
+    </nav>
+</header>
+
+<section class="media-hero">
+    <h1>Media Page</h1>
+</section>
+
+<section class="media-container">
+
+    <div class="media-block">
+        <h2>Introduction</h2>
+        <p>
+            We are a purpose-driven non-governmental organization dedicated to empowering communities and creating sustainable social impact. Our work focuses on addressing critical challenges in education, health, skill development, and community well-being. By working closely with local communities, volunteers, and partners, we strive to deliver practical solutions that improve lives and promote long-term growth.
+        </p>
+    </div>
+
+    <div class="media-block">
+        <h2>Press Releases</h2>
+
+        {% for item in media %}
+            {% if item[1] == 'press' %}
+            <div class="media-item">
+                <h4>{{ item[2] }}</h4>
+                <p>{{ item[3] }}</p>
+                {% if item[4] %}
+                <a href="{{ item[4] }}">Read more</a>
+                {% endif %}
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="media-block">
+        <h2>Media Coverage</h2>
+
+        {% for item in media %}
+            {% if item[1] == 'coverage' %}
+            <div class="media-item">
+                <h4>{{ item[2] }}</h4>
+                <p>{{ item[3] }}</p>
+                {% if item[4] %}
+                <a href="{{ item[4] }}">View source</a>
+                {% endif %}
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
+    <div class="media-block">
+    <h2>Image Gallery</h2>
+
+    <div class="media-gallery">
+        {% for item in media %}
+            {% if item[1] == 'image' %}
+            <img src="{{ url_for('static', filename='uploads/' ~ item[4]) }}" alt="{{ item[2] }}">
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+    <div class="media-block">
+        <h2>Videos</h2>
+
+        {% for item in media %}
+            {% if item[1] == 'video' %}
+            <div class="media-video">
+                <iframe src="{{ item[4] }}" allowfullscreen></iframe>
+                <p>{{ item[2] }}</p>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+</section>
+
+</body>
+
+</html>

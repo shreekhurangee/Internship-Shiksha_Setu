@@ -1,0 +1,3 @@
+﻿Flask==3.0.1
+gunicorn
+Werkzeug==3.0.1

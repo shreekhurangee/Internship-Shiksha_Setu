@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Our Work | EduaSpark</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+<h2 class="admin-logo">
+  Shiksha<span>Setu</span>-
+</h2>    <nav>
+        <a href="/home">Home</a>
+        <a href="/about">About Us</a>
+        <a href="/work" class="active">Our Work</a>
+        <a href="/media">Media</a>
+    </nav>
+</header>
+
+<section class="work-hero">
+    <div class="work-hero-content">
+        <h1>Our Work</h1>
+        <p>Transforming lives through meaningful educational initiatives</p>
+    </div>
+</section>
+
+<section class="projects-section">
+    {% for project in projects %}
+    <div class="project-card">
+
+        {% if project[3] and project[3]|length > 0 %}
+        <div class="project-image">
+            <img src="{{ url_for('static', filename='uploads/' ~ project[3]) }}" alt="{{ project[1] }}">
+        </div>
+        {% endif %}
+
+        <div class="project-content">
+            <h3>{{ project[1] }}</h3>
+            <p>{{ project[2] }}</p>
+        </div>
+
+    </div>
+    {% endfor %}
+</section>
+
+<section class="impact-section">
+    <h2>Our Impact</h2>
+    <p>Real numbers that reflect real change</p>
+
+    <div class="impact-cards">
+        {% for impact in impacts %}
+        <div class="impact-card">
+            <h3>{{ impact[1] }}</h3>
+            <span>{{ impact[2] }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+</body>
+</html>

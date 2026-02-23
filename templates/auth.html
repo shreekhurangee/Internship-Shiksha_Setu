@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login / Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="auth-page user-auth">
+
+<div class="auth-box">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="auth-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <h2>Welcome</h2>
+    <p>Please login or register to continue</p>
+
+    <form method="post">
+
+        <input type="text" name="username" placeholder="Username" required>
+
+        <div class="password-wrap">
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <span class="toggle-password" onclick="togglePassword()"></span>
+        </div>
+
+        <button type="submit" name="action" value="login">Login</button>
+        <button type="submit" name="action" value="register">Register</button>
+
+    </form>
+</div>
+
+<script>
+function togglePassword() {
+  const pw = document.getElementById("password");
+  const t = document.querySelector(".toggle-password");
+  if (pw.type === "password") {
+    pw.type = "text";
+    t.textContent = "Hide";
+  } else {
+    pw.type = "password";
+    t.textContent = "Show";
+  }
+}
+</script>
+
+</body>
+</html>

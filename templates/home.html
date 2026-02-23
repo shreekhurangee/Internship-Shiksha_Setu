@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+<h2 class="admin-logo">
+  Shiksha<span>Setu</span>
+</h2>
+    <nav>
+        <a href="/home" class="active">Home</a>
+        <a href="/about">About Us</a>
+        <a href="/work">Our Work</a>
+        <a href="/media">Media</a>
+    </nav>
+</header>
+
+<section class="hero" style="background-image: url('{{ url_for('static', filename='uploads/' + content.banner_image) }}');">
+    <div class="hero-overlay">
+        <h1>{{ content.banner_title }}</h1>
+        <p>{{ content.banner_subtitle }}</p>
+    </div>
+</section>
+
+<section class="vm-section">
+    <div class="vm-card">
+        <h2>Our Vision</h2>
+        <p>{{ content.vision }}</p>
+    </div>
+
+    <div class="vm-card">
+        <h2>Our Mission</h2>
+        <p>{{ content.mission }}</p>
+    </div>
+</section>
+
+</body>
+</html>

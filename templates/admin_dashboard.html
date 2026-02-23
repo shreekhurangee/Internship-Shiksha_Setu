@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminstyle.css') }}">
+</head>
+<body>
+
+<div class="admin-wrapper">
+
+
+    <main class="admin-content">
+
+        <section id="home" class="admin-section active">
+                        <h1>ADMIN DASHBOARD</h1>
+
+            <h1>Home Page Content</h1>
+
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="current_image" value="{{ content.banner_image }}">
+
+                <label>Banner Title</label>
+                <input type="text" name="banner_title" value="{{ content.banner_title }}">
+
+                <label>Banner Subtitle</label>
+                <input type="text" name="banner_subtitle" value="{{ content.banner_subtitle }}">
+
+                <label>Hero Background Image</label>
+                <input type="file" name="banner_image">
+
+                <label>Vision</label>
+                <textarea name="vision">{{ content.vision }}</textarea>
+
+                <label>Mission</label>
+                <textarea name="mission">{{ content.mission }}</textarea>
+
+                <button type="submit">Save Home Content</button>
+            </form>
+        </section>
+
+        <section id="about" class="admin-section">
+            <h1>About Page Content</h1>
+
+            <form action="/admin/about" method="post">
+                <label>Section Title</label>
+                <input type="text" name="title">
+
+                <label>Section Content</label>
+                <textarea name="content"></textarea>
+
+                <button type="submit">Add About Section</button>
+            </form>
+
+            <hr>
+
+            {% for a in about_list %}
+            <form method="post" action="/admin/about/edit/{{ a[0] }}">
+                <input type="text" name="title" value="{{ a[1] }}">
+                <textarea name="content">{{ a[2] }}</textarea>
+                <button type="submit">Update</button>
+                <a href="/admin/about/delete/{{ a[0] }}" class="delete-btn">Delete</a>
+            </form>
+            <hr>
+            {% endfor %}
+        </section>
+
+        <section id="work" class="admin-section">
+            <h1>Our Work (Projects)</h1>
+
+            <form action="/admin/project" method="post" enctype="multipart/form-data">
+                <label>Project Title</label>
+                <input type="text" name="title">
+
+                <label>Description</label>
+                <textarea name="description"></textarea>
+
+                <label>Project Image</label>
+                <input type="file" name="image">
+
+                <button type="submit">Add Project</button>
+            </form>
+
+            <hr>
+
+            {% for p in project_list %}
+            <form method="post" action="/admin/project/edit/{{ p[0] }}" enctype="multipart/form-data">
+                <input type="text" name="title" value="{{ p[1] }}">
+                <textarea name="description">{{ p[2] }}</textarea>
+
+                <input type="hidden" name="current_image" value="{{ p[3] }}">
+
+                {% if p[3] %}
+                <img src="{{ url_for('static', filename='uploads/' + p[3]) }}">
+                {% endif %}
+
+                <input type="file" name="image">
+                <button type="submit">Update</button>
+<a href="/admin/project/delete/{{ p[0] }}" class="delete-btn">Delete</a>
+            </form>
+            <hr>
+            {% endfor %}
+        </section>
+
+        <section id="media" class="admin-section">
+            <h1>Media Section</h1>
+
+            <form action="/admin/media" method="post" enctype="multipart/form-data">
+                <label>Media Type</label>
+                <select name="type" id="mediaType" onchange="toggleMediaInput()">
+                    <option value="press">Press Release</option>
+                    <option value="coverage">Media Coverage</option>
+                    <option value="video">Video</option>
+                    <option value="image">Image</option>
+                </select>
+
+                <label>Title</label>
+                <input type="text" name="title">
+
+                <label>Description</label>
+                <textarea name="description"></textarea>
+
+                <div id="linkField">
+                    <label>Link</label>
+                    <input type="text" name="link">
+                </div>
+
+                <div id="imageField" style="display:none;">
+                    <label>Upload Image</label>
+                    <input type="file" name="image">
+                </div>
+
+                <button type="submit">Add Media Item</button>
+            </form>
+
+            <hr>
+
+            {% for m in media_list %}
+            <form method="post" action="/admin/media/edit/{{ m[0] }}" enctype="multipart/form-data">
+
+                <select name="type">
+                    <option value="image" {% if m[1]=='image' %}selected{% endif %}>Image</option>
+                    <option value="link" {% if m[1]!='image' %}selected{% endif %}>Link</option>
+                </select>
+
+                <input type="text" name="title" value="{{ m[2] }}">
+                <textarea name="description">{{ m[3] }}</textarea>
+
+                <input type="hidden" name="current_link" value="{{ m[4] }}">
+
+                {% if m[1]=='image' %}
+                    <img src="/static/uploads/{{ m[4] }}" width="120">
+                    <input type="file" name="image">
+                {% else %}
+                    <input type="text" name="link" value="{{ m[4] }}">
+                {% endif %}
+
+                <button type="submit">Update</button>
+                <a href="/admin/media/delete/{{ m[0] }}" class="delete-btn">Delete</a>
+            </form>
+            <hr>
+            {% endfor %}
+        </section>
+
+    </main>
+</div>
+
+<script>
+function showSection(id) {
+    document.querySelectorAll(".admin-section").forEach(s => s.classList.remove("active"));
+    document.querySelectorAll(".menu-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    event.target.classList.add("active");
+}
+
+function toggleMediaInput() {
+    const type = document.getElementById("mediaType").value;
+    document.getElementById("linkField").style.display = type === "image" ? "none" : "block";
+    document.getElementById("imageField").style.display = type === "image" ? "block" : "none";
+}
+</script>
+
+</body>
+</html>
